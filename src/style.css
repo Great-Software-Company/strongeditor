@@ -1,0 +1,184 @@
+@font-face {
+  font-family: Inconsolata;
+  src: url(./fonts/Inconsolata.woff2);
+}
+:root {
+  --font: Inconsolata, Arial, Helvetica, sans-serif;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.margin-top-0{
+  margin-top: 0px !important;
+}
+
+@media only screen and (max-width: 1992px) {
+  #content{
+    flex: auto;
+  }
+}
+
+
+.text-highlight {
+  border-radius: 2px;
+}
+
+.text-highlight .text-highlight,
+.dark .text-highlight .text-highlight {
+  background-color: transparent;
+}
+
+#editor {
+  font-size: 20px;
+  font-family: var(--font);
+}
+
+.ql-container,.ql-editor {
+  min-height: 500px;
+}
+.ql-container.full {
+  min-height: calc(100vh - 68px - 2rem - 50px);
+}
+.ql-toolbar.ql-snow {
+  border: 0;
+  font-family: var(--font);
+}
+
+.ql-container.ql-snow {
+  border: 0;
+}
+
+.ql-snow .ql-picker {
+  color: inherit;
+}
+
+.dark .ql-snow .ql-stroke {
+  stroke: #e2e8f0;
+}
+
+.ql-editor:focus {
+  outline: none;
+}
+
+.dark .ql-snow .ql-tooltip {
+  background-color: #1f2937;
+  color: #e2e8f0;
+}
+
+.dark .ql-snow .ql-picker-options,
+.dark input {
+  background-color: #1f2937;
+}
+.ql-editor .ql-size-huge {
+  font-size: 2em;
+}
+
+#footer, .footer{
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.bg-adverbs{
+  background-color: #bdb2ff;
+}
+
+.dark .dark\:bg-adverbs-dark{
+  background-color: #bdb2ff;
+}
+
+.bg-passive{
+  background-color: #a0c4ff;
+}
+
+.dark .dark\:bg-passive-dark{
+  background-color: #a0c4ff;
+}
+
+.bg-complex{
+  background-color: #ffb3c6;
+}
+
+.dark .dark\:bg-complex-dark{
+  background-color: #ffb3c6;
+}
+
+.bg-hard{
+  background-color: #ff8fab;
+}
+
+.dark .dark\:bg-hard-dark{
+  background-color: #ff8fab;
+}
+
+.bg-very-hard{
+  background-color: #fb6f92;
+}
+
+.dark .dark\:bg-very-hard-dark{
+  background-color: #fb6f92;
+}
+
+.bg-word-repetition{
+  background-color: #ffc6ff;
+}
+
+.dark .dark\:bg-word-repetition-dark{
+  background-color: #6b42ff;
+}
+
+.bg-char-repetition{
+  background-color: #8461ff;
+}
+
+.dark .dark\:bg-char-repetition-dark{
+  background-color: #c1b6fd;
+}
+
+.bg-bad-style{
+  background-color: #f27173;
+}
+
+.dark .dark\:bg-bad-style-dark{
+  background-color: #f27173;
+}
+
+.bg-strong-word{
+  background-color: #6adec7;
+}
+
+.dark .dark\:bg-strong-word-dark{
+  background-color: #52ad9b;
+}
+
+.bg-weak-word{
+  background-color: #c46788;
+}
+
+.dark .dark\:bg-weak-word-dark{
+  background-color: #c46788;
+}
+.editor-height{
+  min-height: 820px;
+}
+
+@media only screen and (max-width: 992px) {
+  #full-screen{
+    display: none;
+  }
+}
