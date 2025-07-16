@@ -7,7 +7,7 @@ const config = [
     keywords: ["accidentally", "accusingly", "achingly", "adventurously", "amazingly", "angrily", "annoyingly", "anxiously", "arrogantly", "audibly", "awkwardly", "badly", "bashfully", "beautifully", "bitterly", "bleakly", "blindly", "blissfully", "boastfully", "boldly", "bravely", "briefly", "brightly", "briskly", "broadly", "busily", "calmly", "carefully", "carelessly", "casually", "cautiously", "certainly", "cheerfully", "clearly", "cleverly", "closely", "coaxingly", "colorfully", "commonly", "coolly", "correctly", "courageously", "coyly", "crazily", "crossly", "cruelly", "curiously", "daintily", "daringly", "deafeningly", "dearly", "deeply", "defiantly", "deftly", "dejectedly", "deliberately", "delightfully", "desperately", "determinedly", "devotedly", "diligently", "doubtfully", "dramatically", "dreamily", "dutifully", "eagerly", "ear-splittingly", "easily", "elegantly", "emphatically", "energetically", "enormously", "enthusiastically", "enviously", "especially", "excitedly", "expeditiously", "faintly", "faithfully", "famously",
       "ferociously", "fervently", "fiercely", "fleetingly", "fondly", "foolishly", "fortunately", "frankly", "frantically", "freely", "frightfully", "fully", "furiously", "generally", "generously", "gently", "gladly", "gleefully", "gracefully", "gradually", "gratefully", "greatly", "greedily", "haltingly", "happily", "harshly", "hastily", "heartily", "heavily", "helplessly", "highly", "honestly", "hopelessly", "hungrily", "hurriedly", "immediately", "inadequately", "inaudibly", "increasingly", "innocently", "inquisitively", "instantly", "intensely", "interestingly", "inwardly", "irritably", "jealously", "jovially", "joyfully", "joylessly", "jubilantly", "justly", "keenly", "kindheartedly", "kindly", "knavishly", "knowingly", "languidly", "lazily", "leisurely", "lightly", "lively", "loftily", "longingly", "loosely", "loudly", "lovingly", "loyally", "luckily", "madly", "majestically", "meaningfully", "mechanically", "merrily", "miserably", "mockingly", "morosely", "mortally", "mysteriously", "naturally", "neatly", "nervously",
       "noiselessly", "noisily", "obediently", "obnoxiously", "oddly", "officially", "openly", "optimistically", "overconfidently", "painfully", "partially", "patiently", "perfectly", "physically", "playfully", "politely", "poorly", "potentially", "powerfully", "promptly", "properly", "proudly", "punctually", "quaintly", "queasily", "queerly", "questionably", "quickly", "quietly", "quizzically", "rapidly", "ravenously", "readily", "reassuringly", "recklessly", "regularly", "reluctantly", "repeatedly", "reproachfully", "resonantly", "resoundingly", "restfully", "restlessly", "righteously", "rightfully", "rigidly", "roughly", "rudely", "sadly", "safely", "scarcely", "scarily", "searchingly", "sedately", "seemingly", "seldom", "selfishly", "separately", "seriously", "shakily", "sharply", "sheepishly", "shrilly", "shyly", "silently", "sleepily", "slowly", "smoothly", "softly", "solemnly", "solidly", "soundlessly", "speedily", "stealthily", "sternly", "strictly", "stubbornly", "stupidly", "suddenly", "supposedly", "surprisingly",
-      "suspiciously", "sweetly", "swiftly", "sympathetically", "tediously", "tenderly", "tensely", "terribly", "thankfully", "thoroughly", "thoughtfully", "thunderously", "tightly", "tremendously", "truly", "truthfully", "ultimately", "unaccountably", "unbearably", "unexpectedly", "unfortunately", "unhappily", "unnecessarily", "unwillingly", "uproariously", "urgently", "vacantly", "vaguely", "vainly", "valiantly", "vastly", "viciously", "victoriously", "violently", "vivaciously", "vociferously", "warmly", "weakly", "wearily", "wholly", "wildly", "wisely", "wonderfully", "wrongly", "youthfully"],
+      "suspiciously", "sweetly", "swiftly", "sympathetically", "Hardly", "tediously", "tenderly", "tensely", "terribly", "thankfully", "thoroughly", "thoughtfully", "thunderously", "tightly", "tremendously", "truly", "truthfully", "ultimately", "unaccountably", "unbearably", "unexpectedly", "unfortunately", "unhappily", "unnecessarily", "unwillingly", "uproariously", "urgently", "vacantly", "vaguely", "vainly", "valiantly", "vastly", "viciously", "victoriously", "violently", "vivaciously", "vociferously", "warmly", "weakly", "wearily", "wholly", "wildly", "wisely", "wonderfully", "wrongly", "youthfully"],
     className: 'bg-adverbs dark:bg-adverbs-dark',
     name: 'Adverb',
     names: 'Adverbs',
@@ -251,6 +251,12 @@ const quill = new Quill('#editor', {
   },
   theme: 'snow',
 },);
+
+// Add this to update counters on any Quill text change
+quill.on('text-change', function() {
+  clearTimeout(timer);
+  timer = setTimeout(handleTextChange, timeout);
+});
 
 const labelTemplate = `<div class="rounded p-2 __className__">
                            <p class="text-sm">
@@ -516,40 +522,31 @@ function updateInfo(text) {
   document.getElementById('content-letters').innerHTML = letters;
 }
 function updateStrength() {
-  const adverbs = +document.querySelector('[data-result="adverbs"]').textContent; //1
-  const passiveVoice = +document.querySelector('[data-result="passive-voice"]').textContent;//2
-  const complexWording = +document.querySelector('[data-result="complex-wording"]').textContent; //3
-  const hardRead = +document.querySelector('[data-result="hard-read"]').textContent; //4
-  const veryHardRead = +document.querySelector('[data-result="very-hard-read"]').textContent; //5
-  const charRepetition = +document.querySelector('[data-result="char-repetition"]').textContent; //6
-  const wordRepetition = +document.querySelector('[data-result="word-repetition"]').textContent; //7
-  const strongWord = +document.querySelector('[data-result="strong-word"]').textContent; //8
-  const badStyle = +document.querySelector('[data-result="bad-style"]').textContent; //9
-  const weakWord = +document.querySelector('[data-result="weak-word"]').textContent; //10
-
+  const adverbs = document.querySelector('[data-result="adverbs"]').textContent; //1
+  const passiveVoice = document.querySelector('[data-result="passive-voice"]').textContent; //2
+  const complexWording = document.querySelector('[data-result="complex-wording"]').textContent; //3
+  const hardRead = document.querySelector('[data-result="hard-read"]').textContent; //4
+  const veryHardRead = document.querySelector('[data-result="very-hard-read"]').textContent; //5
+  const charRepetition = document.querySelector('[data-result="char-repetition"]').textContent; //6
+  const wordRepetition = document.querySelector('[data-result="word-repetition"]').textContent; //7
+  const strongWord = document.querySelector('[data-result="strong-word"]').textContent; //8
+  const badStyle = document.querySelector('[data-result="bad-style"]').textContent; //9
+  const weakWord = document.querySelector('[data-result="weak-word"]').textContent; //10
+  const wordCount = document.querySelector('#content-words').textContent; //11
   let strength = 100
     + strongWord
     - (adverbs + passiveVoice + complexWording + charRepetition + wordRepetition + badStyle + weakWord)
-    + 2 * hardRead
-    + 4 * veryHardRead;
+    - (2 * hardRead)
+    - (4 * veryHardRead);
+
+  if (wordCount < 10) strength -= 30;
+  if (wordCount < 20) strength -= 20;
+  if (wordCount < 30) strength -= 10;
+
   strength = Math.min(100, Math.max(0, strength));
   document.querySelector('#content-strength').innerHTML = strength;
 }
-// function handleUpdateFormat(positions, length, className, key) {
-//   positions.forEach(position => {
-//     const thisFormat = quill.getFormat(position, length);
-//     if ('highlight' in thisFormat) return;
-//     if ('hard-to-read' in thisFormat) {
-//       const pre = quill.getText(position - 1, 1).trim();
-//       if (!pre) {
-//         quill.removeFormat(position - 1, length + 2, 'very-hard-read');
-//       } else {
-//         quill.removeFormat(position, length, 'very-hard-read');
-//       }
-//     };
-//     quill.formatText(position, length, 'highlight', { className, key });
-//   });
-// }
+
 
 function handleUpdateFormat(positions, length, className, key) {
   positions.forEach(position => {
@@ -569,7 +566,7 @@ function handleUpdateFormat(positions, length, className, key) {
     const currentSize = thisFormat.size || 'normal';
     quill.formatText(position, length, {
       'highlight': { className, key },
-      'size': currentSize 
+      'size': currentSize
     });
   });
 }
