@@ -268,7 +268,7 @@ config.forEach(item => {
   const list = document.querySelector('#label-list');
   const label = labelTemplate.replace(/__className__/g, item.className)
     .replace(/__name__/g, item.name)
-    .replace(/__key__/g, item.key);
+    .replace(/__key__/g, item.key); 
   list.insertAdjacentHTML('beforeend', label);
 })
 let isUpdate = false;
@@ -299,6 +299,26 @@ const handleTextChange = () => {
         handleUpdateFormat(positions, keyword.length, item.className, item.key);
       }
     })
+    // Additional logic for complex-wording: highlight long words
+    if (item.key === 'complex-wording') {
+      // Extract words using a stricter regex: only full words with a-z, A-Z, hyphen, at least 16 chars, not part of a longer string with dots, numbers, etc.
+      const strictWordRegex = /\b[a-zA-Z-]{16,}\b/g;
+      let match;
+      while ((match = strictWordRegex.exec(text)) !== null) {
+        const word = match[0];
+        // Check the character before and after the match in the original text
+        const before = match.index > 0 ? text[match.index - 1] : ' ';
+        const after = text[match.index + word.length] || ' ';
+        // If before or after is a dot, number, or underscore, skip (likely part of a domain or similar)
+        if (/[\w.]/.test(before) && before !== ' ' && before !== '\n' && before !== '\t') continue;
+        if (/[\w.]/.test(after) && after !== ' ' && after !== '\n' && after !== '\t') continue;
+        // Exclude words with consecutive hyphens, starting/ending with hyphen, or any non-letter/hyphen character
+        if (/--|^-|-$/.test(word)) continue;
+        if (!/^[a-zA-Z-]+$/.test(word)) continue;
+        if (item.keywords.includes(word.toLowerCase())) continue;
+        handleUpdateFormat([match.index], word.length, item.className, item.key);
+      }
+    }
   });
   isUpdate = false;
   checkRepetition(text);
